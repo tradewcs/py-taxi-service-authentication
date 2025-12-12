@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.views import generic
 from django.http import HttpRequest, HttpResponse
+from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
 
 from .models import Driver, Car, Manufacturer
 
@@ -52,3 +54,16 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
 class DriverDetailView(LoginRequiredMixin, generic.DetailView):
     model = Driver
     queryset = Driver.objects.prefetch_related("cars__manufacturer")
+
+
+class CustomLoginView(LoginView):
+    template_name = "registration/login.html"
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse("taxi:index")
+
+
+class CustomLogoutView(LoginRequiredMixin, LogoutView):
+    template_name = "registration/logout.html"
+    next_page = "login"

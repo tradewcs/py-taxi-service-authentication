@@ -19,14 +19,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 
+from taxi.views import CustomLoginView, CustomLogoutView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("taxi.urls", namespace="taxi")),
-    path(
-        "login/",
-        RedirectView.as_view(url="/accounts/login/", permanent=False),
-        name="login"
-    ),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("login/", CustomLoginView.as_view(), name="login"),
+    path("logout/", CustomLogoutView.as_view(), name="logout"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
