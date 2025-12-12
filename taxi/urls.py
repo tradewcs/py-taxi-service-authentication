@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, include
+from django.views.generic.base import RedirectView
 
 from .views import (
     index,
@@ -22,6 +23,8 @@ urlpatterns = [
     path(
         "drivers/<int:pk>/", DriverDetailView.as_view(), name="driver-detail"
     ),
+    path('login/', RedirectView.as_view(url='accounts/login/', permanent=False)),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 app_name = "taxi"
