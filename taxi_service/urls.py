@@ -23,10 +23,9 @@ from django.views.generic.base import RedirectView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("taxi.urls", namespace="taxi")),
-        path(
+    path(
         "login/",
-        RedirectView.as_view(url="/accounts/login/",
-        permanent=False),
+        RedirectView.as_view(url="/accounts/login/", permanent=False),
         name="login"
     ),
     path("accounts/", include("django.contrib.auth.urls")),
